@@ -1,0 +1,4 @@
+rootProject.name = "RoutingService"
+include ':app'
+include (":localsocket")
+project(":localsocket").projectDir = new File("C:/Users/qlx/AndroidStudioProjects/LocalSocket")

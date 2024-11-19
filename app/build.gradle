@@ -1,0 +1,134 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+
+android {
+    namespace 'com.jj.routingservice'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.jj.routingservice"
+        minSdk 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("lineage-18_1.keystore")
+            storePassword "123456"
+            keyAlias "android"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file("lineage-18_1.keystore")
+            storePassword "123456"
+            keyAlias "android"
+            keyPassword "123456"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug() {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 输出apk名称为UerbT_v1.0_2016-12-01_uerbt.apk
+                def fileName = "Routing_v${variant.versionName}.apk"
+                output.outputFileName = fileName
+            }
+        }
+    }
+    buildFeatures{
+        aidl = true
+        buildConfig = true
+        dataBinding = true
+        viewBinding = true
+    }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+}
+
+dependencies {
+    def room_version = "2.6.1"
+    implementation fileTree(dir:  'libs' , include: ['*.aar'])
+    implementation files('libs/frpclib-sources.jar')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.webkit:webkit:1.4.0'
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.2.1")
+    implementation "androidx.core:core-ktx:1.5.0"
+    implementation("androidx.preference:preference:1.2.1")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation("com.google.guava:guava:33.2.1-android")
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation("io.ktor:ktor-network-jvm:2.3.9")
+    implementation("dnsjava:dnsjava:3.6.1")
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("be.mygod.librootkotlinx:librootkotlinx:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    implementation("com.linkedin.dexmaker:dexmaker:2.28.4")
+    implementation("androidx.browser:browser:1.8.0")
+    implementation("com.joaomgcd:taskerpluginlibrary:0.4.10")
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    //数据库
+    implementation "androidx.room:room-ktx:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation project(':localsocket')
+    implementation ('io.socket:socket.io-client:2.0.1') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+}
