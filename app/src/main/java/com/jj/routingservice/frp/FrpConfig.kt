@@ -19,30 +19,6 @@ object FrpConfig {
             "local_port = 7007\n" +
             "remote_port = 5556"
 
-    //    fun getConfig(ip:String,port:Int):String{
-//       return  "[common]\n" +
-//               "server_addr = $ip\n" +
-//               "server_port = 7000\n" +
-//               "\n" +
-//               "[web]\n" +
-//               "type = tcp\n" +
-//               "local_ip = 127.0.0.1\n" +
-//               "local_port = ${Config.HTTP_WEB_PORT}\n" +
-//               "remote_port = $port\n" +
-//               "\n" +
-//               "[http]\n" +
-//               "type = tcp\n" +
-//               "local_ip = 127.0.0.1\n" +
-//               "local_port = ${Config.HTTP_PORT}\n" +
-//               "remote_port = 7012"
-//
-//    } +
-//               "\n" +
-//               "[http]\n" +
-//               "type = tcp\n" +
-//               "local_ip = 127.0.0.1\n" +
-//               "local_port = ${Config.HTTP_PORT}\n" +
-//               "subdomain = bcd"
     fun getConfig(ip: String, serial: String): String {
         return "[common]\n" +
                 "server_addr = $ip\n" +
