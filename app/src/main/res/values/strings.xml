@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RoutingService</string>
+    <string name="app_name">JtunRouting</string>
     <string name="title_repeater">Repeater</string>
     <string name="title_tethering">Tethering</string>
     <string name="title_clients">Clients</string>

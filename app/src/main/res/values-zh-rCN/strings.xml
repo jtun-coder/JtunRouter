@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RoutingService</string>
+    <string name="app_name">JtunRouting</string>
     <string name="title_repeater">无线中继</string>
     <string name="title_tethering">共享管理</string>
     <string name="title_clients">已连设备</string>
