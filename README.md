@@ -38,9 +38,10 @@ Project Integration [VPNHotspot](https://github.com/Mygod/VPNHotspot) Easily con
 ### Rom
 For ease of testing and stability, the application runs on a modified system based on [LineageOS 18.1](https://lineageos.org/).
 
-Online Rom download
-[mi4]()
-[mi5]()
+Online Rom download(The project has been integrated into the system)
+[mi4](https://drive.google.com/drive/folders/1WAFptXNIyNS3VZezOFzByYu-OOs6JXFj?usp=sharing)
+
+[mi5](https://drive.google.com/drive/folders/1PbkI5I_Fz7TFMVUwetMjaiu0UnzVOCKy?usp=sharing)
 ### Install
 
 Download [app-release.apk](https://github.com/jtun-coder/JtunRouting/releases) and install it on your Android device, then launch it and grant necessary permissions.
