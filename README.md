@@ -7,19 +7,19 @@ Description
 Users can manage the device remotely via the management page without needing to operate the screen, enabling access to an app store and management of third-party applications.
 Adapt to simple configuration, startup and other functions.
 
-[OpenVPN](https://github.com/jtun-coder/OpenVPN)
+[OpenVPN]()
 
 <center class="half">
 <img src="./README/openvpn_1.png" alt="OpenVPN" style="zoom:25%"/>
 </center>
 
-[AndroidAList](https://github.com/jtun-coder/AndroidAList)
+[AndroidAList]()
 
 <center class="half">
 <img src="./README/AList_1.png" alt="AList" style="zoom:25%"/>
 </center>
 
-[V2rayNG](https://github.com/jtun-coder/V2rayNG)
+[V2rayNG]()
 
 ### Web operate
 <center class="half">
