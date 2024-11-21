@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
     >
 
     <uses-feature
@@ -102,7 +101,7 @@
             android:foregroundServiceType="connectedDevice" />
         <service android:name=".frp.FrpcService" />
         <receiver
-            android:name="com.jj.routingservice.receiver.BootCompletedReceiver"
+            android:name="com.jtun.router.receiver.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

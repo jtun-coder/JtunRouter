@@ -96,10 +96,10 @@
 
 -keep class com.dolphin.localsocket.bean.** {*;}
 -keep class com.dolphin.localsocket.cmd.** {*;}
--keep class com.jj.routingservice.http.** {*;}
--keep class com.jj.routingservice.room.** {*;}
--keep class com.jj.routingservice.sms.** {*;}
--keep class com.jj.routingservice.net.** {*;}
+-keep class com.jtun.router.http.** {*;}
+-keep class com.jtun.router.room.** {*;}
+-keep class com.jtun.router.sms.** {*;}
+-keep class com.jtun.router.net.** {*;}
 -keep class kotlin.text.**{*;}
 
 -keep public class * implements com.bumptech.glide.module.GlideModule

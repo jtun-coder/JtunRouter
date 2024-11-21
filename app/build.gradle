@@ -7,15 +7,15 @@ plugins {
 
 
 android {
-    namespace 'com.jj.routingservice'
+    namespace 'com.jtun.router'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.jj.routingservice"
+        applicationId "com.jtun.router"
         minSdk 21
         targetSdkVersion 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.01"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -63,7 +63,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 输出apk名称为UerbT_v1.0_2016-12-01_uerbt.apk
-                def fileName = "Routing_v${variant.versionName}.apk"
+                def fileName = "JtunRouter_v${variant.versionName}.apk"
                 output.outputFileName = fileName
             }
         }
