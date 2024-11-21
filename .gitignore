@@ -14,7 +14,7 @@
 .cxx
 local.properties
 #Android
-
+proguardMapping.txt
 # Gradle files
 .gradle/
 build/

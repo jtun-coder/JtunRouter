@@ -1,9 +1,9 @@
-JtunRouting
+JtunRouter
 =============
 
 Description
 ------------
-[JtunRouting](https://github.com/jtun-coder/JtunRouting) It is an Android-based application that enables managing hotspot properties through a web interface, providing mobile routing functionality.
+[JtunRouter](https://github.com/jtun-coder/JtunRouting) It is an Android-based application that enables managing hotspot properties through a web interface, providing mobile routing functionality.
 Users can manage the device remotely via the management page without needing to operate the screen, enabling access to an app store and management of third-party applications.
 Adapt to simple configuration, startup and other functions.
 

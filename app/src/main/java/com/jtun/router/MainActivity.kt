@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
 //            .putExtra(TetheringService.EXTRA_REMOVE_INTERFACE, "swlan0"))
         startAp()
         SystemCtrlUtil.systemSettings(this)
-//        SystemCtrlUtil.requestUsageStatsPermission(this) //重启后立即打开应用会呼出设置界面
+        SystemCtrlUtil.requestUsageStatsPermission(this)
         SocketIO.getInstance().connect()
 //        SmsManager.defaultSmsPackage(this)
     }
