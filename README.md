@@ -55,5 +55,5 @@ Email: <jtun@86.ltd>
 
 # Join a group
 <center class="half">
-<img src="./README/qrcode.jpg" alt="qrcode" style="zoom:25%"/>
+<img src="./README/qrcode.jpg" alt="qrcode" width="50%"/>
 </center>
