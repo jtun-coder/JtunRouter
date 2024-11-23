@@ -7,9 +7,8 @@ Description
 Users can manage the device remotely via the management page without needing to operate the screen, enabling access to an app store and management of third-party applications.
 Adapt to simple configuration, startup and other functions.
 
-<center class="half">
-<img src="./README/AppMain.png" alt="Main page" style="zoom:25%"/>
-</center>
+<img src="./README/AppMain.png" alt="Main page" width="50%"/>
+
 
 [OpenVPN]()
 
