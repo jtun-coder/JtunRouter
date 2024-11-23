@@ -43,6 +43,7 @@ import org.json.JSONObject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, LocalServerListener {
@@ -171,7 +172,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         handler.removeCallbacks(getSpeedRunnable)
         FrpUtil.stopFrp()
         TetheringUtil.stopTetheringService()
+        LocalServer.instance.release()
         super.onDestroy()
+        exitProcess(0)
     }
 
     /**

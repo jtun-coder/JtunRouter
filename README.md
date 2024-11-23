@@ -7,6 +7,10 @@ Description
 Users can manage the device remotely via the management page without needing to operate the screen, enabling access to an app store and management of third-party applications.
 Adapt to simple configuration, startup and other functions.
 
+<center class="half">
+<img src="./README/AppMain.png" alt="Main page" style="zoom:25%"/>
+</center>
+
 [OpenVPN]()
 
 <center class="half">
@@ -49,3 +53,8 @@ Download [app-release.apk](https://github.com/jtun-coder/JtunRouting/releases) a
 # Support
 
 Email: <jtun@86.ltd>
+
+# Join a group
+<center class="half">
+<img src="./README/qrcode.jpg" alt="qrcode" style="zoom:25%"/>
+</center>

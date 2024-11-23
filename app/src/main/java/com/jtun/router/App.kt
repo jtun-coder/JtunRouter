@@ -57,7 +57,7 @@ class App : Application() {
         deviceStorage.moveDatabaseFrom(this, AppDatabase.DB_NAME)
         Services.init { this }
         WifiApControl.getInstance().init(this)
-        KLog.init(true)
+        KLog.init(BuildConfig.DEBUG)
         BootReceiver.migrateIfNecessary()
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
         ServiceNotification.updateNotificationChannels()
