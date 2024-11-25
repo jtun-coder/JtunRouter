@@ -4,11 +4,13 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import android.provider.Settings
 import androidx.core.content.edit
 import com.jtun.router.App.Companion.app
+import com.jtun.router.control.WifiApControl
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
@@ -24,7 +26,7 @@ import java.util.UUID
 object DeviceUtil {
     private const val ID_KEY = "jtun_id"
     val uuid:String = UUID.randomUUID().toString()
-    var deviceId: String
+    private var deviceId: String
         get() = app.pref.getString(ID_KEY,UUID.randomUUID().toString())!!
         set(value) = app.pref.edit { putString(ID_KEY, value) }
     private val cpuStatsNames = arrayOf(
@@ -56,6 +58,21 @@ object DeviceUtil {
         //字符类型转换
 //        String availMemStr = formatterFileSize(context, memSize);
         return memSize
+    }
+    fun getDeviceSerial():String{
+        var serial = ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            serial = Build.getSerial()
+            if(serial.isEmpty()){
+                WifiApControl.getInstance().getImei()?.let {
+                    serial = it
+                }
+            }
+        }
+        if(serial.isEmpty()){
+            serial = deviceId
+        }
+        return serial
     }
 
     //获取系统存储空间（ROM）大小:

@@ -12,7 +12,7 @@ object FrpUtil {
         val intent = Intent(App.app, FrpcService::class.java)
         val jsonObject = JSONObject()
         jsonObject.put("ip",ServerConfig.FRP_ADDRESS)
-        jsonObject.put("serial", WifiApControl.getInstance().getImei())
+        jsonObject.put("serial", DeviceUtil.getDeviceSerial())
         intent.putExtra("frp_config", jsonObject.toString())
         App.app.startService(intent)
     }

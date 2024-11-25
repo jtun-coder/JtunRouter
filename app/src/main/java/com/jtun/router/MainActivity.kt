@@ -3,6 +3,7 @@ package com.jtun.router
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         sb.append("Default password : $pass")
         sb.append("\n")
         sb.append("Admin Html : http://$ip:2000")
-        sb.append("\n id:" + WifiApControl.getInstance().getImei())
+        sb.append("\n id:" + DeviceUtil.getDeviceSerial())
         textInfo.text = sb.toString()
         JLog.r("init", "start $sb")
     }

@@ -50,7 +50,7 @@ class SocketIO private constructor(){
 
     private fun startExecutor(){
         val auth: MutableMap<String, String> = HashMap()
-        auth["serial"] = WifiApControl.getInstance().getImei()
+        auth["serial"] = DeviceUtil.getDeviceSerial()
         val options = IO.Options.builder()
             .setAuth(auth)
             .setPath("/im/socket.io")
