@@ -7,6 +7,8 @@ import android.net.wifi.WifiManager
 import android.os.Environment
 import android.os.StatFs
 import android.provider.Settings
+import androidx.core.content.edit
+import com.jtun.router.App.Companion.app
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
@@ -20,7 +22,11 @@ import java.util.UUID
  * 获取设备信息
  */
 object DeviceUtil {
+    private const val ID_KEY = "jtun_id"
     val uuid:String = UUID.randomUUID().toString()
+    var deviceId: String
+        get() = app.pref.getString(ID_KEY,UUID.randomUUID().toString())!!
+        set(value) = app.pref.edit { putString(ID_KEY, value) }
     private val cpuStatsNames = arrayOf(
         "user", "nice", "system", "idle", "iowait",
         "irq", "softirq", "stealstolen", "guest", "guest_nice"

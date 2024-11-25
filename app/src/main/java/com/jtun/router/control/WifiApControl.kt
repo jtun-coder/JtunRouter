@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.jtun.router.callback.AppNetworkCallback
 import com.jtun.router.http.response.InternetInfo
@@ -23,6 +24,7 @@ import com.jtun.router.net.wifi.WifiApManager
 import com.jtun.router.room.ClientConnected
 import com.jtun.router.root.RootManager
 import com.jtun.router.root.WifiApCommands
+import com.jtun.router.util.DeviceUtil
 import com.jtun.router.util.JLog
 import com.jtun.router.util.KLog
 import com.jtun.router.util.NetworkUtils
@@ -103,16 +105,19 @@ class WifiApControl private constructor() {
         return ""
 //        return "8986032344201254008"//usr测试
     }
-    fun getImei():String?{
+    fun getImei():String{
         try {
-            mTelephonyManager?.let {
-                return it.imei
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                mTelephonyManager?.let {
+                    if(it.imei.isNotEmpty()){
+                       return it.imei
+                    }
+                }
             }
         }catch (e:Exception){
             e.printStackTrace()
         }
-
-        return ""
+        return DeviceUtil.deviceId
     }
 
     /**

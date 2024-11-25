@@ -114,7 +114,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
                 FrpUtil.startFrp()
             }
             SystemCtrlUtil.requestUsageStatsPermission(this@MainActivity)
-            KLog.i(DeviceUtil.getAndroidId(this@MainActivity))
             handler.postDelayed(getSpeedRunnable, 1000)
         }
     }
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         sb.append("Default password : $pass")
         sb.append("\n")
         sb.append("Admin Html : http://$ip:2000")
-        sb.append("\n id:" + DeviceUtil.getAndroidId(this@MainActivity))
+        sb.append("\n id:" + WifiApControl.getInstance().getImei())
         textInfo.text = sb.toString()
         JLog.r("init", "start $sb")
     }

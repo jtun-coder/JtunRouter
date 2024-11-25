@@ -3,6 +3,7 @@ package com.jtun.router.util
 import android.content.Intent
 import com.jtun.router.App
 import com.jtun.router.config.ServerConfig
+import com.jtun.router.control.WifiApControl
 import com.jtun.router.frp.FrpcService
 import org.json.JSONObject
 
@@ -11,7 +12,7 @@ object FrpUtil {
         val intent = Intent(App.app, FrpcService::class.java)
         val jsonObject = JSONObject()
         jsonObject.put("ip",ServerConfig.FRP_ADDRESS)
-        jsonObject.put("serial",DeviceUtil.getAndroidId(App.app))
+        jsonObject.put("serial", WifiApControl.getInstance().getImei())
         intent.putExtra("frp_config", jsonObject.toString())
         App.app.startService(intent)
     }
