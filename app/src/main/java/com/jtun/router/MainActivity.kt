@@ -66,6 +66,15 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         httpWeb?.startServer()
         httpServer = HttpServer()
         httpServer?.startServer()
+        httpServer?.restartCallback = {
+            lifecycleScope.launch {
+                val config = WifiApControl.getInstance().getSoftApConfig()
+                val ip = NetworkUtils.getLocalIpv4Address()
+                withContext(Dispatchers.Main) {
+                    setWifiText(config?.ssid.toString(),config?.passphrase,ip)
+                }
+            }
+        }
         //启动一个LocalServer用于管理第三方应用
         LocalServer.instance.localServerListener = this
         LocalServer.instance.init(Const.ROUTING_TAG)
@@ -74,14 +83,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         WifiApControl.getInstance().initNetSpeed()
         WifiApControl.getInstance().sysRealtime()
         FileHelper.init(this@MainActivity)
-//        NetworkUtils.getRSRP(this@MainActivity)
-//        startService(Intent(this, TetheringService::class.java)
-//            .putExtra(TetheringService.EXTRA_REMOVE_INTERFACE, "swlan0"))
         startAp()
         SystemCtrlUtil.systemSettings(this)
-        SystemCtrlUtil.requestUsageStatsPermission(this)
         SocketIO.getInstance().connect()
-//        SmsManager.defaultSmsPackage(this)
     }
 
     private fun startAp() {
@@ -98,29 +102,33 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         lifecycleScope.launch {
             SystemCtrlUtil.setenforce()
             delay(2000)
-            val textInfo = findViewById<TextView>(R.id.text_info)
             val config = WifiApControl.getInstance().getSoftApConfig()
             val ip = NetworkUtils.getLocalIpv4Address()
             withContext(Dispatchers.Main) {
-                val sb = StringBuilder()
-                sb.append("WifiName : ${config?.ssid}")
-                sb.append("\n")
-                sb.append("Default password : ${config?.passphrase}")
-                sb.append("\n")
-                sb.append("Admin Html : http://$ip:2000")
-                sb.append("\n id:" + DeviceUtil.getAndroidId(this@MainActivity))
-                textInfo.text = sb.toString()
+                setWifiText(config?.ssid.toString(),config?.passphrase,ip)
                 if (!SmsWriteOpUtil.isWriteEnabled(applicationContext)) {
                     KLog.i("isWriteEnabled")
                     SmsWriteOpUtil.setWriteEnabled(applicationContext, true);
                 }
-                JLog.r("init", "start $sb")
                 TetheringUtil.startTetheringService()
                 FrpUtil.startFrp()
             }
+            SystemCtrlUtil.requestUsageStatsPermission(this@MainActivity)
             KLog.i(DeviceUtil.getAndroidId(this@MainActivity))
             handler.postDelayed(getSpeedRunnable, 1000)
         }
+    }
+    private fun setWifiText(ssid:String?,pass:String?,ip:String){
+        val textInfo = findViewById<TextView>(R.id.text_info)
+        val sb = StringBuilder()
+        sb.append("WifiName : $ssid")
+        sb.append("\n")
+        sb.append("Default password : $pass")
+        sb.append("\n")
+        sb.append("Admin Html : http://$ip:2000")
+        sb.append("\n id:" + DeviceUtil.getAndroidId(this@MainActivity))
+        textInfo.text = sb.toString()
+        JLog.r("init", "start $sb")
     }
 
     @AfterPermissionGranted(127)

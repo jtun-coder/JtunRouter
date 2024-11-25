@@ -23,6 +23,7 @@ import com.jtun.router.net.wifi.WifiApManager
 import com.jtun.router.room.ClientConnected
 import com.jtun.router.root.RootManager
 import com.jtun.router.root.WifiApCommands
+import com.jtun.router.util.JLog
 import com.jtun.router.util.KLog
 import com.jtun.router.util.NetworkUtils
 import com.jtun.router.util.broadcastReceiver
@@ -350,27 +351,29 @@ class WifiApControl private constructor() {
             KLog.i("soft ap : $configuration")
             return configuration
     }
-    fun restartTethering(){
+    fun restartTethering(call:(() -> Unit)?){
         GlobalScope.launch(Dispatchers.Main) {
             TetheringManager.stopTethering(TetheringManager.TETHERING_WIFI,errorCallback = {
-                KLog.i("restartTethering stop exception : $it")
+                JLog.r("restartTether","restartTethering stop exception : $it")
             }, successCallback = {
-                KLog.i("restartTethering stop success")
+                JLog.r("restartTether","restartTethering stop success")
             })
             withContext(Dispatchers.IO){
                 delay(5000)
                 withContext(Dispatchers.Main){
                     TetheringManager.startTethering(TetheringManager.TETHERING_WIFI,true,object : TetheringManager.StartTetheringCallback{
                         override fun onTetheringStarted() {
-                            KLog.i("restartTethering startTethering success")
+                            JLog.r("restartTether","restartTethering startTethering success")
+                            call?.invoke()
                         }
 
                         override fun onTetheringFailed(error: Int?) {
-                            KLog.i("restartTethering onTetheringFailed error : $error")
+                            JLog.r("restartTether","restartTethering onTetheringFailed error : $error")
+                            call?.invoke()
                         }
 
                         override fun onException(e: Exception) {
-                            KLog.i("restartTethering startTethering onException : $e")
+                            JLog.r("restartTether","restartTethering startTethering onException : $e")
                         }
                     })
                 }
@@ -382,17 +385,17 @@ class WifiApControl private constructor() {
         handler.post {
             TetheringManager.startTethering(TetheringManager.TETHERING_WIFI,true,object : TetheringManager.StartTetheringCallback{
                 override fun onTetheringStarted() {
-                    KLog.i("startTethering success")
+                    JLog.r("startTether","startTethering success")
                     call.invoke()
                 }
 
                 override fun onTetheringFailed(error: Int?) {
-                    KLog.i("onTetheringFailed error : $error")
+                    JLog.r("startTether","onTetheringFailed error : $error")
                     call.invoke()
                 }
 
                 override fun onException(e: Exception) {
-                    KLog.i("startTethering onException : $e")
+                    JLog.r("startTether","startTethering onException : $e")
                 }
             })
         }
