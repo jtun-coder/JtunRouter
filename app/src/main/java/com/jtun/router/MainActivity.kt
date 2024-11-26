@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.format.Formatter
 import android.util.Log
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -122,13 +123,14 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         val textInfo = findViewById<TextView>(R.id.text_info)
         val sb = StringBuilder()
         sb.append("WifiName : $ssid")
-        sb.append("\n")
-        sb.append("Default password : $pass")
-        sb.append("\n")
+        sb.append("---Password : $pass")
+        sb.append("---")
         sb.append("Admin Html : http://$ip:2000")
         sb.append("\n id:" + DeviceUtil.getDeviceSerial())
         textInfo.text = sb.toString()
         JLog.r("init", "start $sb")
+        val webView = findViewById<WebView>(R.id.web_view)
+        webView.loadUrl("http://$ip:2000")
     }
 
     @AfterPermissionGranted(127)
