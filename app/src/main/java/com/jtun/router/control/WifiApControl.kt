@@ -90,6 +90,12 @@ class WifiApControl private constructor() {
         softApControl.start()
         context.registerReceiver(receiver, IntentFilter(TetheringManager.ACTION_TETHER_STATE_CHANGED))
     }
+    fun getActiveIFace():String{
+        if(activeIfaces.isNotEmpty()){
+            return activeIfaces[0]
+        }
+        return "wlan0"
+    }
     fun getSimType():String{
         return ""
 //        return "usr"

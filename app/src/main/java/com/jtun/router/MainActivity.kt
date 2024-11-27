@@ -28,7 +28,6 @@ import com.jtun.router.room.AppInfo.Companion.toCompat
 import com.jtun.router.socket.SocketIO
 import com.jtun.router.util.DeviceUtil
 import com.jtun.router.util.FileHelper
-import com.jtun.router.util.FrpUtil
 import com.jtun.router.util.JLog
 import com.jtun.router.util.KLog
 import com.jtun.router.util.NetworkUtils
@@ -118,7 +117,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
                     SmsWriteOpUtil.setWriteEnabled(applicationContext, true);
                 }
                 TetheringUtil.startTetheringService()
-                FrpUtil.startFrp()
             }
             SystemCtrlUtil.requestUsageStatsPermission(this@MainActivity)
             handler.postDelayed(getSpeedRunnable, 1000)
@@ -183,7 +181,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         httpServer?.stop()
         WifiApControl.getInstance().release()
         handler.removeCallbacks(getSpeedRunnable)
-        FrpUtil.stopFrp()
         TetheringUtil.stopTetheringService()
         LocalServer.instance.release()
         mWebView?.destroy()

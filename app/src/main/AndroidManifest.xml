@@ -100,7 +100,6 @@
             android:name=".TetheringService"
             android:directBootAware="true"
             android:foregroundServiceType="connectedDevice" />
-        <service android:name=".frp.FrpcService" />
         <receiver
             android:name="com.jtun.router.receiver.BootCompletedReceiver"
             android:enabled="true"

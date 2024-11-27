@@ -19,6 +19,7 @@ import android.telephony.gsm.GsmCellLocation;
 import android.text.format.Formatter;
 
 import com.jtun.router.App;
+import com.jtun.router.control.WifiApControl;
 import com.jtun.router.http.response.InternetInfo;
 
 import java.io.BufferedReader;
@@ -299,7 +300,7 @@ public class NetworkUtils {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface networkInterface = en.nextElement();
                 KLog.i("getName ： " + networkInterface.getDisplayName());
-                if("wlan0".equals(networkInterface.getDisplayName())){
+                if(WifiApControl.Companion.getInstance().getActiveIFace().equals(networkInterface.getDisplayName())){
                     for (Enumeration<InetAddress> enumIpAddress = networkInterface.getInetAddresses(); enumIpAddress.hasMoreElements(); ) {
                         InetAddress inetAddress = enumIpAddress.nextElement();
                         if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress() && inetAddress instanceof Inet4Address) {

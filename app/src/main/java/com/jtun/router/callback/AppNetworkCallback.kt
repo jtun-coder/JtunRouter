@@ -5,7 +5,6 @@ import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import com.jtun.router.App
-import com.jtun.router.util.FrpUtil
 import com.jtun.router.util.KLog
 import com.jtun.router.util.NetworkUtils
 import com.jtun.router.util.TetheringUtil
@@ -17,7 +16,6 @@ class AppNetworkCallback : ConnectivityManager.NetworkCallback() {
         if (NetworkUtils.isConnectedAvailableNetwork(App.app)) {
             KLog.d("onCapabilitiesChanged ---> ====网络可正常上网===网络类型为： " + NetworkUtils.getConnectedNetworkType(App.app))
             TetheringUtil.startTetheringService()
-            FrpUtil.startFrp()
         }
 
         //表明此网络连接验证成功
