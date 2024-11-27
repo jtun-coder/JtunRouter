@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.ClipboardManager
 import android.content.Intent
 import android.location.LocationManager
+import android.os.Build
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.getSystemService
@@ -51,6 +52,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
+        hookWebView()
         deviceStorage = DeviceStorageApp(this)
         // alternative to PreferenceManager.getDefaultSharedPreferencesName(this)
         deviceStorage.moveSharedPreferencesFrom(this, PreferenceManager(this@App).sharedPreferencesName)
@@ -101,4 +103,62 @@ class App : Application() {
     fun masterClear() {
         sendBroadcast(Intent("android.intent.action.MASTER_CLEAR"))
     }
+
+    /**
+     * 给WebViewFactory sProviderInstance赋值，避免进行进程判断而抛出异常（系统应用不能使用WebView）
+     */
+    fun hookWebView() {
+        val sdkInt = Build.VERSION.SDK_INT
+        try {
+            val factoryClass = Class.forName("android.webkit.WebViewFactory")
+            val field = factoryClass.getDeclaredField("sProviderInstance")
+            field.isAccessible = true
+            var sProviderInstance = field[null]
+            if (sProviderInstance != null) {
+                KLog.i("sProviderInstance isn't null")
+                return
+            }
+            val getProviderClassMethod = if (sdkInt > 22) {
+                factoryClass.getDeclaredMethod("getProviderClass")
+            } else if (sdkInt == 22) {
+                factoryClass.getDeclaredMethod("getFactoryClass")
+            } else {
+                KLog.i("Don't need to Hook WebView")
+                return
+            }
+            getProviderClassMethod.isAccessible = true
+            val factoryProviderClass = getProviderClassMethod.invoke(factoryClass) as Class<*>
+            val delegateClass = Class.forName("android.webkit.WebViewDelegate")
+            val delegateConstructor = delegateClass.getDeclaredConstructor()
+            delegateConstructor.isAccessible = true
+            if (sdkInt < 26) { //低于Android O版本
+                val providerConstructor = factoryProviderClass.getConstructor(delegateClass)
+                if (providerConstructor != null) {
+                    providerConstructor.isAccessible = true
+                    sProviderInstance = providerConstructor.newInstance(delegateConstructor.newInstance())
+                }
+            } else {
+                val chromiumMethodName = factoryClass.getDeclaredField("CHROMIUM_WEBVIEW_FACTORY_METHOD")
+                chromiumMethodName.isAccessible = true
+                var chromiumMethodNameStr = chromiumMethodName[null] as String
+                if (chromiumMethodNameStr == null) {
+                    chromiumMethodNameStr = "create"
+                }
+                val staticFactory = factoryProviderClass.getMethod(chromiumMethodNameStr, delegateClass)
+                if (staticFactory != null) {
+                    sProviderInstance = staticFactory.invoke(null, delegateConstructor.newInstance())
+                }
+            }
+
+            if (sProviderInstance != null) {
+                field["sProviderInstance"] = sProviderInstance
+                KLog.i("Hook success!")
+            } else {
+                KLog.i("Hook failed!")
+            }
+        } catch (e: Throwable) {
+            KLog.w(e)
+        }
+    }
+
 }
