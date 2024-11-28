@@ -62,7 +62,11 @@ object DeviceUtil {
     fun getDeviceSerial():String{
         var serial = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            serial = Build.getSerial()
+            try {
+                //不是系统应用会报错
+                serial = Build.getSerial()
+            }catch (_:Exception){
+            }
             if(serial.isEmpty()){
                 WifiApControl.getInstance().getImei()?.let {
                     serial = it
