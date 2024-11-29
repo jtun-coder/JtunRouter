@@ -23,6 +23,7 @@ import com.jtun.router.http.response.DeviceInfo
 import com.jtun.router.http.response.NetSpeed
 import com.jtun.router.http.response.openvpn.OpenvpnItem
 import com.jtun.router.http.response.UsedDataInfo
+import com.jtun.router.http.response.frp.FrpConfig
 import com.jtun.router.http.response.v2ray.Configs
 import com.jtun.router.http.response.v2ray.ServersCache
 import com.jtun.router.room.AppDatabase
@@ -359,6 +360,33 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
                             val uuid = jsonObject.getString("uuid")
                             resp = openvpnRemove(uuid)
                         }
+                        HttpInterface.FRP_LIST->{
+                            resp = frpList()
+                        }
+                        HttpInterface.FRP_REMOVE->{
+                            val uid = jsonObject.getString("uid")
+                            resp = frpRemove(uid)
+                        }
+                        HttpInterface.FRP_ADD->{
+                            val config = jsonObject.getString("config")
+                            resp = frpImport(config)
+                        }
+                        HttpInterface.FRP_START->{
+                            val uid = jsonObject.getString("uid")
+                            resp = frpStart(uid)
+                        }
+                        HttpInterface.FRP_STOP->{
+                            val uid = jsonObject.getString("uid")
+                            resp = frpStop(uid)
+                        }
+                        HttpInterface.FRP_CONFIG->{
+                            val uid = jsonObject.getString("uid")
+                            resp = frpConfig(uid)
+                        }
+                        HttpInterface.FRP_EDIT->{
+                            val config = jsonObject.getString("config")
+                            resp = frpEdit(config)
+                        }
                         else -> {
                             resp = BaseResponse(500,"Api not found")
                         }
@@ -667,10 +695,10 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val cmdStr = client.receiveCmd()
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
-            JLog.t(tag,"OpenVpn import success $cmdStr")
+            JLog.t(tag,"OpenVpn start success $cmdStr")
             return BaseResponse(message = configCmd.message)
         }
-        JLog.t(tag,"OpenVpn import failed")
+        JLog.t(tag,"OpenVpn start failed")
         return BaseResponse(500, message = "Failed")
     }
     private fun openvpnStop(uuid:String):BaseResponse{
@@ -679,10 +707,10 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val cmdStr = client.receiveCmd()
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
-            JLog.t(tag,"OpenVpn import success $cmdStr")
+            JLog.t(tag,"OpenVpn stop success $cmdStr")
             return BaseResponse(message = configCmd.message)
         }
-        JLog.t(tag,"OpenVpn import failed")
+        JLog.t(tag,"OpenVpn stop failed")
         return BaseResponse(500, message = "Failed")
     }
     private fun openvpnList():BaseResponse{
@@ -691,10 +719,10 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val cmdStr = client.receiveCmd()
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<List<OpenvpnItem>>>(cmdStr)
         configCmd?.let {
-            JLog.t(tag,"OpenVpn import success $cmdStr")
+            JLog.t(tag,"OpenVpn list success $cmdStr")
             return BaseResponse(message = configCmd.message, data = configCmd.data)
         }
-        JLog.t(tag,"OpenVpn import failed")
+        JLog.t(tag,"OpenVpn list failed")
         return BaseResponse(500, message = "Failed")
     }
     private fun openvpnRemove(uuid:String):BaseResponse{
@@ -707,6 +735,94 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
             return BaseResponse(message = configCmd.message)
         }
         JLog.t(tag,"OpenVpn remove failed")
+        return BaseResponse(500, message = "Failed")
+    }
+    private fun frpList():BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd<Any?>(LocalCmd.FRP_LIST).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<List<FrpConfig>>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp list success $cmdStr")
+            return BaseResponse(message = configCmd.message, data = configCmd.data)
+        }
+        JLog.t(tag,"Frp list failed")
+        return BaseResponse(500, message = "Failed")
+    }
+    private fun frpRemove(uid:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_REMOVE, data = uid).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp remove success $cmdStr")
+            return BaseResponse(message = configCmd.message)
+        }
+        JLog.t(tag,"Frp remove failed")
+        return BaseResponse(500, message = "Failed")
+    }
+    private fun frpImport(configStr:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_IMPORT, data = configStr).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp import success $cmdStr")
+            return BaseResponse(message = configCmd.message)
+        }
+        JLog.t(tag,"Frp import failed")
+        return BaseResponse(500, message = "Failed")
+    }
+
+    private fun frpStart(uid:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_START, data = uid).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp start success $cmdStr")
+            return BaseResponse(message = configCmd.message)
+        }
+        JLog.t(tag,"Frp start failed")
+        return BaseResponse(500, message = "Failed")
+    }
+
+    private fun frpStop(uid:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_STOP, data = uid).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp stop success $cmdStr")
+            return BaseResponse(message = configCmd.message)
+        }
+        JLog.t(tag,"Frp stop failed")
+        return BaseResponse(500, message = "Failed")
+    }
+
+    private fun frpConfig(uid:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_CONFIG,data = uid).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<FrpConfig>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp config success $cmdStr")
+            return BaseResponse(message = configCmd.message, data = configCmd.data)
+        }
+        JLog.t(tag,"Frp config failed")
+        return BaseResponse(500, message = "Failed")
+    }
+
+    private fun frpEdit(configStr:String):BaseResponse{
+        val client = LocalServer.instance.getClient(Config.FRP_PACKAGE_NAME) ?: return BaseResponse(message = "Frp not start")
+        client.send(BaseLocalCmd(LocalCmd.FRP_EDIT, data = configStr).toString())
+        val cmdStr = client.receiveCmd()
+        val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
+        configCmd?.let {
+            JLog.t(tag,"Frp edit success $cmdStr")
+            return BaseResponse(message = configCmd.message)
+        }
+        JLog.t(tag,"Frp edit failed")
         return BaseResponse(500, message = "Failed")
     }
     private fun login() : BaseResponse {

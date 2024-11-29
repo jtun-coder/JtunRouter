@@ -36,6 +36,14 @@ object HttpInterface {
     const val OPENVPN_LIST = "/openvpnList"//获取列表
     const val OPENVPN_REMOVE = "/openvpnRemove"//删除配置信息
 
+    const val FRP_LIST = "/frpList"//获取配置列表
+    const val FRP_REMOVE = "/frpRemove"//删除配置
+    const val FRP_ADD = "/frpAdd"//增加配置
+    const val FRP_START = "/frpStart"//启动服务
+    const val FRP_STOP = "/frpStop"//停止服务
+    const val FRP_CONFIG = "/frpConfig"//获取服务详情
+    const val FRP_EDIT = "/frpEdit"//修改服务
+
     const val APP_INSTALL = "/appInstall"//安装
     const val APP_UNINSTALL = "/appUninstall"//卸载
     const val INSTALL_INFO = "/appInstallInfo"//获取安装信息
