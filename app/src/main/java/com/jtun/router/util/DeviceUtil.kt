@@ -73,7 +73,7 @@ object DeviceUtil {
                 }
             }
         }
-        if(serial.isEmpty()){
+        if(serial.isEmpty() || "unknown" == serial){
             serial = deviceId
         }
         return serial
