@@ -77,4 +77,4 @@ JtunRouter 目标是提供一个人人可用的安卓设备网络管理的应用
 
 ## 加入群组
 
-<img src="https://github.com/jtun-coder/JtunRouter/raw/master/README/qrcode.jpg" alt="qrcode" style="zoom:67%;" />
+<img src="./README/qrcode.png" alt="qrcode" style="zoom:67%;" />

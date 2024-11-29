@@ -69,4 +69,4 @@ Download the [app-release.apk](https://github.com/jtun-coder/JtunRouting/release
 
 ## Join the Group
 
-<img src="https://github.com/jtun-coder/JtunRouter/raw/master/README/qrcode.jpg" alt="qrcode" style="zoom:67%;" />
+<img src="./README/qrcode.png" alt="qrcode" style="zoom:67%;" />
