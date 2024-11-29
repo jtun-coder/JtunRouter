@@ -17,7 +17,7 @@ JtunRouter 目标是提供一个人人可用的安卓设备网络管理的应用
 
 
 
-![mobile ui](./README/mobile ui.png)
+![mobile ui](./README/mobile_ui.png)
 
 
 

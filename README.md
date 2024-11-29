@@ -15,7 +15,7 @@ Leveraging the openness and versatility of Android, Jtun Router includes rich ne
 
 ## Device Features
 
-![mobile ui](./README/mobile ui.png)
+![mobile ui](./README/mobile_ui.png)
 
 1. **APK Store**: Jtun Router includes an app store that integrates common APKs, allowing users to easily manage and operate apps through a straightforward interface.
 2. **Firmware Upgrades**: Upgrading the firmware retains current configurations, eliminating the need to reinstall APKs after updates.
