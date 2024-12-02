@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.layout_main_1)
         textSpeed = findViewById(R.id.text_speed)
         mWebView = findViewById(R.id.web_view)
         mWebView?.setMixedContentAllowed(true)

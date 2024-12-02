@@ -744,7 +744,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<List<FrpConfig>>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp list success $cmdStr")
-            return BaseResponse(message = configCmd.message, data = configCmd.data)
+            return BaseResponse(code = configCmd.value,message = configCmd.message, data = configCmd.data)
         }
         JLog.t(tag,"Frp list failed")
         return BaseResponse(500, message = "Failed")
@@ -756,7 +756,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp remove success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"Frp remove failed")
         return BaseResponse(500, message = "Failed")
@@ -768,7 +768,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp import success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"Frp import failed")
         return BaseResponse(500, message = "Failed")
@@ -781,7 +781,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp start success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value, message = configCmd.message)
         }
         JLog.t(tag,"Frp start failed")
         return BaseResponse(500, message = "Failed")
@@ -794,7 +794,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp stop success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"Frp stop failed")
         return BaseResponse(500, message = "Failed")
@@ -807,7 +807,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<FrpConfig>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp config success $cmdStr")
-            return BaseResponse(message = configCmd.message, data = configCmd.data)
+            return BaseResponse(code = configCmd.value,message = configCmd.message, data = configCmd.data)
         }
         JLog.t(tag,"Frp config failed")
         return BaseResponse(500, message = "Failed")
@@ -820,7 +820,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"Frp edit success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"Frp edit failed")
         return BaseResponse(500, message = "Failed")

@@ -11,4 +11,7 @@
     <color name="colorAccent">#000000</color>
     <color name="light_colorPrimary">#4CAF50</color>
     <color name="dark_colorPrimary">#2e7d32</color>
+    <color name="text_grey">#999999</color>
+    <color name="line_color">#EAEBF6</color>
+    <color name="page_bg">#f5f5f5</color>
 </resources>

@@ -210,6 +210,7 @@
     <string name="wifi_mac_randomization_persistent">持久化</string>
     <string name="wifi_mac_randomization_non_persistent">不持久化</string>
     <string name="wifi_bridged_mode_opportunistic_shutdown">启用桥接模式伺机关闭</string>
+    <string name="wifi_hotspot_timeout_bridged">桥接实例的非活动超时</string>
     <string name="wifi_ieee_80211ax">启用 Wi\u2011Fi 6</string>
     <string name="wifi_ieee_80211be">启用 Wi\u2011Fi 7</string>
     <string name="wifi_user_config">用户提供配置</string>
@@ -226,4 +227,16 @@
 
     <string name="donations__description">觉得此应用很有用？\n捐赠给该开发者以支持此应用的开发！</string>
     <string name="donations__google_android_market_description">Google 收取 30% 的费用</string>
+    <string name="tasker_get_tethering_state">获取网络共享状态</string>
+    <string name="tasker_tethering_state_update">网络共享状态更新</string>
+    <string name="device_connected">设备已连接</string>
+    <string name="connected_internet">已连接到互联网</string>
+    <string name="uploads">上传</string>
+    <string name="downloads">下载</string>
+    <string name="wifi_info">Wi-Fi 信息</string>
+    <string name="name">名称</string>
+    <string name="password">密码</string>
+    <string name="web">Web</string>
+    <string name="device_id">设备ID</string>
+    <string name="reboot">重启</string>
 </resources>

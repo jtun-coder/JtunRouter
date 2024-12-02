@@ -238,4 +238,14 @@
 
     <string name="tasker_get_tethering_state">Get Tethering State</string>
     <string name="tasker_tethering_state_update">Tethering State Update</string>
+    <string name="device_connected">Device connected</string>
+    <string name="connected_internet">Connected to the Internet</string>
+    <string name="uploads">Uploads</string>
+    <string name="downloads">Downloads</string>
+    <string name="wifi_info">Wi-Fi Information</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="web">Web</string>
+    <string name="device_id">Device ID</string>
+    <string name="reboot">Reboot</string>
 </resources>
