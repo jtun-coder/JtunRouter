@@ -5,230 +5,337 @@
     android:layout_height="match_parent"
     android:background="@color/page_bg"
     android:paddingHorizontal="18dp"
-    android:paddingVertical="28dp">
+    android:paddingVertical="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_client"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/layout_main_item"
-        android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/image_client"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/icon_client"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_clients"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:text="4"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintLeft_toRightOf="@id/image_client"
-            app:layout_constraintTop_toTopOf="@id/image_client" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/device_connected"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/image_client"
-            app:layout_constraintLeft_toLeftOf="@id/text_clients" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_connected"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/layout_main_item"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_client">
-
-        <ImageView
-            android:id="@+id/image_connected"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/icon_connect"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_connected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:text="@string/connected_internet"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintLeft_toRightOf="@id/image_connected"
-            app:layout_constraintTop_toTopOf="@id/image_connected" />
-
-        <TextView
-            android:id="@+id/text_connect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1day"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/image_connected"
-            app:layout_constraintLeft_toLeftOf="@id/text_connected" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_upload"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/layout_main_item"
-        android:layout_marginRight="9dp"
-        android:padding="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/layout_download"
-        app:layout_constraintTop_toBottomOf="@id/layout_connected">
-        <ImageView
-            android:id="@+id/image_upload"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/icon_upload"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/uploads"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/image_upload"
-            app:layout_constraintBottom_toBottomOf="@id/image_upload"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="32sp"
-            android:id="@+id/text_uploads"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_download"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/layout_main_item"
-        android:layout_marginLeft="9dp"
-        android:padding="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_connected"
-        app:layout_constraintLeft_toRightOf="@id/layout_upload">
-        <ImageView
-            android:id="@+id/image_download"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/icon_download"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/downloads"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/image_download"
-            app:layout_constraintBottom_toBottomOf="@id/image_download"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="32sp"
-            android:id="@+id/text_download"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_wifi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/layout_main_item"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_upload"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/image_logo"
         >
-        <ImageView
-            android:id="@+id/image_wifi"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/icon_wifi"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wifi_info"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/image_wifi"
-            app:layout_constraintBottom_toBottomOf="@id/image_wifi"
-            />
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/image_wifi">
-            <LinearLayout
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/layout_main_item"
+                android:padding="16dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_client"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_client"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/text_clients"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_grey"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="17dp"
+                    android:text="4"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:text="@string/name"/>
+                    app:layout_constraintLeft_toRightOf="@id/image_client"
+                    app:layout_constraintTop_toTopOf="@id/image_client" />
+
                 <TextView
-                    android:id="@+id/text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/device_connected"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/image_client"
+                    app:layout_constraintLeft_toLeftOf="@id/text_clients" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_connected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/layout_main_item"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_client">
+
+                <ImageView
+                    android:id="@+id/image_connected"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_connect"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_connected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:text="@string/connected_internet"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toRightOf="@id/image_connected"
+                    app:layout_constraintTop_toTopOf="@id/image_connected" />
+
+                <TextView
+                    android:id="@+id/text_connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1day"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/image_connected"
+                    app:layout_constraintLeft_toLeftOf="@id/text_connected" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_upload"
+                android:layout_width="0dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/layout_main_item"
+                android:layout_marginRight="9dp"
+                android:padding="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/layout_download"
+                app:layout_constraintTop_toBottomOf="@id/layout_connected">
+                <ImageView
+                    android:id="@+id/image_upload"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_upload"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uploads"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_upload"
+                    app:layout_constraintBottom_toBottomOf="@id/image_upload"
+                    />
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:text="@string/name"/>
+                    android:textSize="32sp"
+                    android:id="@+id/text_uploads"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_download"
+                android:layout_width="0dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/layout_main_item"
+                android:layout_marginLeft="9dp"
+                android:padding="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_connected"
+                app:layout_constraintLeft_toRightOf="@id/layout_upload">
+                <ImageView
+                    android:id="@+id/image_download"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_download"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/downloads"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_download"
+                    app:layout_constraintBottom_toBottomOf="@id/image_download"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="32sp"
+                    android:id="@+id/text_download"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_wifi"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginVertical="16dp"
-                android:background="@color/line_color"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/layout_main_item"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_upload"
+                >
+                <ImageView
+                    android:id="@+id/image_wifi"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_wifi"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wifi_info"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_wifi"
+                    app:layout_constraintBottom_toBottomOf="@id/image_wifi"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/image_wifi">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_grey"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:text="@string/name"/>
+                        <TextView
+                            android:id="@+id/text_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            />
 
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginVertical="16dp"
+                        android:background="@color/line_color"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_grey"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:text="@string/password"/>
+                        <TextView
+                            android:id="@+id/text_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginVertical="16dp"
+                        android:background="@color/line_color"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_grey"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:text="@string/web"/>
+                        <TextView
+                            android:id="@+id/text_web"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"/>
 
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginVertical="16dp"
+                        android:background="@color/line_color"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_grey"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:text="@string/device_id"/>
+                        <TextView
+                            android:id="@+id/text_device_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"/>
 
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_reboot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:onClick="reboot"
+                android:background="@drawable/layout_main_item"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_wifi">
+                <ImageView
+                    android:id="@+id/image_reboot"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_reboot"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reboot"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="12dp"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toRightOf="@id/image_reboot"
+                    app:layout_constraintTop_toTopOf="@id/image_reboot"
+                    app:layout_constraintBottom_toBottomOf="@id/image_reboot"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <ImageView
+        android:id="@+id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:src="@drawable/icon_logo"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

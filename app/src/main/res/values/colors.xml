@@ -14,4 +14,6 @@
     <color name="text_grey">#999999</color>
     <color name="line_color">#EAEBF6</color>
     <color name="page_bg">#f5f5f5</color>
+    <color name="textColor_default">#333333</color>
+    <color name="btn_save">#02a7f0</color>
 </resources>

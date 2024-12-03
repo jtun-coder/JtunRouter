@@ -239,4 +239,8 @@
     <string name="web">Web</string>
     <string name="device_id">设备ID</string>
     <string name="reboot">重启</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="tips">提示</string>
+    <string name="reboot_message">是否重启当前设备?</string>
 </resources>

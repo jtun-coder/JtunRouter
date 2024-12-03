@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.format.Formatter
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,8 +22,11 @@ import com.dolphin.localsocket.server.LocalClientTransceiver
 import com.dolphin.localsocket.server.LocalServer
 import com.dolphin.localsocket.utils.GsonUtil
 import com.jtun.router.control.WifiApControl
+import com.jtun.router.dialog.ConfirmDialog
+import com.jtun.router.dialog.OnConfirmListener
 import com.jtun.router.http.HttpServer
 import com.jtun.router.http.HttpWebServer
+import com.jtun.router.net.wifi.SoftApConfigurationCompat
 import com.jtun.router.room.AppDatabase
 import com.jtun.router.room.AppInfo.Companion.toCompat
 import com.jtun.router.socket.SocketIO
@@ -34,8 +38,6 @@ import com.jtun.router.util.NetworkUtils
 import com.jtun.router.util.SmsWriteOpUtil
 import com.jtun.router.util.SystemCtrlUtil
 import com.jtun.router.util.TetheringUtil
-import com.jtun.router.widget.AdvancedWebView
-import com.jtun.router.widget.BaseWebListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.delay
@@ -52,17 +54,32 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
     private var httpWeb: HttpWebServer? = null
     private var httpServer: HttpServer? = null
     private val handler = Handler(Looper.getMainLooper())
-    private var textSpeed: TextView? = null
-    private var mWebView : AdvancedWebView? = null
+    private var textClient: TextView? = null
+    private var textConnected: TextView? = null
+    private var textUploads: TextView? = null
+    private var textDownloads: TextView? = null
+    private var textName: TextView? = null
+    private var textPassword: TextView? = null
+    private var textWeb: TextView? = null
+    private var textDeviceId: TextView? = null
+    private var rebootDialog:ConfirmDialog? =null
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_main_1)
-        textSpeed = findViewById(R.id.text_speed)
-        mWebView = findViewById(R.id.web_view)
-        mWebView?.setMixedContentAllowed(true)
-        mWebView?.setGeolocationEnabled(true)
+        setContentView(R.layout.activity_main)
+        initView()
         getPermission()
+    }
+    private fun initView(){
+        textClient = findViewById(R.id.text_clients)
+        textConnected = findViewById(R.id.text_connect)
+        textUploads = findViewById(R.id.text_uploads)
+        textDownloads = findViewById(R.id.text_download)
+        textName = findViewById(R.id.text_name)
+        textPassword = findViewById(R.id.text_password)
+        textWeb = findViewById(R.id.text_web)
+        textDeviceId = findViewById(R.id.text_device_id)
+        textConnected?.text = WifiApControl.getInstance().sysRealtime()
     }
 
     private fun initData() {
@@ -76,7 +93,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
                 val config = WifiApControl.getInstance().getSoftApConfig()
                 val ip = NetworkUtils.getLocalIpv4Address()
                 withContext(Dispatchers.Main) {
-                    setWifiText(config?.ssid.toString(),config?.passphrase,ip)
+                    setWifiText(config,ip)
                 }
             }
         }
@@ -86,7 +103,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
 
         WifiApControl.getInstance().trafficStats()
         WifiApControl.getInstance().initNetSpeed()
-        WifiApControl.getInstance().sysRealtime()
         FileHelper.init(this@MainActivity)
         startAp()
         SystemCtrlUtil.systemSettings(this)
@@ -110,8 +126,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
             val config = WifiApControl.getInstance().getSoftApConfig()
             val ip = NetworkUtils.getLocalIpv4Address()
             withContext(Dispatchers.Main) {
-                mWebView?.loadUrl("http://$ip:2000", true)
-                setWifiText(config?.ssid.toString(),config?.passphrase,ip)
+                setWifiText(config,ip)
                 if (!SmsWriteOpUtil.isWriteEnabled(applicationContext)) {
                     KLog.i("isWriteEnabled")
                     SmsWriteOpUtil.setWriteEnabled(applicationContext, true);
@@ -122,16 +137,13 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
             handler.postDelayed(getSpeedRunnable, 1000)
         }
     }
-    private fun setWifiText(ssid:String?,pass:String?,ip:String){
-        val textInfo = findViewById<TextView>(R.id.text_info)
-        val sb = StringBuilder()
-        sb.append("$ssid")
-        sb.append(",Password:$pass")
-        sb.append("\n")
-        sb.append("Web:http://$ip:2000")
-        sb.append(",id:" + DeviceUtil.getDeviceSerial())
-        textInfo.text = sb.toString()
-        JLog.r("init", "start $sb")
+    private fun setWifiText(config : SoftApConfigurationCompat?, ip:String){
+        textWeb?.text = "http://$ip:2000"
+        textDeviceId?.text = DeviceUtil.getDeviceSerial()
+        config?.let {
+            textName?.text = it.ssid.toString()
+            textPassword?.text = it.passphrase
+        }
     }
 
     @AfterPermissionGranted(127)
@@ -183,7 +195,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         handler.removeCallbacks(getSpeedRunnable)
         TetheringUtil.stopTetheringService()
         LocalServer.instance.release()
-        mWebView?.destroy()
         super.onDestroy()
         exitProcess(0)
     }
@@ -230,16 +241,24 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
             val numClients = WifiApControl.getInstance().getNumClients()
             val rx = Formatter.formatFileSize(this@MainActivity, speedArray[0])
             val tx = Formatter.formatFileSize(this@MainActivity, speedArray[1])
-            textSpeed?.text = "Download：$rx/s,Upload：$tx/s Clients:$numClients"
-            handler.postDelayed(this, 2000)
+            textClient?.text = "$numClients"
+            textUploads?.text = "$tx/s"
+            textDownloads?.text = "$rx/s"
+            textConnected?.text = WifiApControl.getInstance().sysRealtime()
+            handler.postDelayed(this, 1000)
         }
     }
+    fun reboot(view: View){
+        if(rebootDialog == null){
+            rebootDialog = ConfirmDialog(this,object : OnConfirmListener{
+                override fun onConfirm(msg: String?) {
+                    App.app.reboot()
+                }
 
-    override fun onBackPressed() {
-        mWebView?.let {
-            if(!it.onBackPressed())
-                return
+                override fun onCancel() {
+                }
+            })
         }
-        super.onBackPressed();
+        rebootDialog?.show()
     }
 }

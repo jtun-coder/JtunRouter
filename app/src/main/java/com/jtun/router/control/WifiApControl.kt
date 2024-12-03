@@ -263,14 +263,22 @@ class WifiApControl private constructor() {
         return 0
     }
 
-    fun sysRealtime(){
+    fun sysRealtime():String{
         // 获取系统运行时间
         val uptimeMillis = SystemClock.elapsedRealtime()
+        val seconds = uptimeMillis / 1000 % 60
         val minutes = uptimeMillis / (1000 * 60) % 60
         val hours = uptimeMillis / (1000 * 60 * 60) % 24
         val days = uptimeMillis / (1000 * 60 * 60 * 24)
         // 打印系统运行时间
-        KLog.i("SystemTime", "Days: $days Hours: $hours Minutes: $minutes")
+        val stringBuffer = StringBuffer()
+        if(days > 0){
+            stringBuffer.append("$days day,")
+        }
+        stringBuffer.append(" $hours hours,")
+        stringBuffer.append(" $minutes minutes,")
+        stringBuffer.append(" $seconds seconds")
+        return stringBuffer.toString()
     }
 
     /**

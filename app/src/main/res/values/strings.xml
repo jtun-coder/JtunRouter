@@ -248,4 +248,8 @@
     <string name="web">Web</string>
     <string name="device_id">Device ID</string>
     <string name="reboot">Reboot</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="tips">Tips</string>
+    <string name="reboot_message">Do you want to restart the current device?</string>
 </resources>
