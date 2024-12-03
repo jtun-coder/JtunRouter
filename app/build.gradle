@@ -14,8 +14,8 @@ android {
         applicationId "com.jtun.router"
         minSdk 21
         targetSdkVersion 33
-        versionCode 3
-        versionName "1.0.03"
+        versionCode 4
+        versionName "1.0.04"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

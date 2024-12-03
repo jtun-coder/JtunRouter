@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.0.03",
-      "outputFile": "JtunRouter_v1.0.03.apk"
+      "versionCode": 4,
+      "versionName": "1.0.04",
+      "outputFile": "JtunRouter_v1.0.04.apk"
     }
   ],
   "elementType": "File"
