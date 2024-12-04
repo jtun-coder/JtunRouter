@@ -522,7 +522,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val cmdStr = client.receiveCmd()
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Long>>(cmdStr)
         configCmd?.let {
-            return BaseResponse(data = configCmd.data)
+            return BaseResponse(code = configCmd.value,data = configCmd.data)
         }
         return BaseResponse(500, message = "Failed")
     }
@@ -541,7 +541,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"v2ray delete config $cmdStr")
-            return BaseResponse(message = it.message)
+            return BaseResponse(code = configCmd.value,message = it.message)
         }
         JLog.t(tag,"v2ray delete config failed")
         return BaseResponse(500, message = "Failed")
@@ -554,7 +554,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val cmdStr = client.receiveCmd()
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
-            return BaseResponse()
+            return BaseResponse(code = configCmd.value)
         }
         return BaseResponse(500, message = "Failed")
     }
@@ -567,7 +567,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"v2ray stop success $cmdStr")
-            return BaseResponse()
+            return BaseResponse(code = configCmd.value)
         }
         JLog.t(tag,"v2ray stop failed")
         return BaseResponse(500, message = "Failed")
@@ -581,7 +581,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"v2ray start success $cmdStr")
-            return BaseResponse()
+            return BaseResponse(code = configCmd.value)
         }
         JLog.t(tag,"v2ray start failed")
         return BaseResponse(500, message = "Failed")
@@ -596,7 +596,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         configCmd?.let {
             if (it.value > 0){
                 JLog.t(tag,"v2ray import success $cmdStr")
-                return BaseResponse()
+                return BaseResponse(code = configCmd.value)
             }
         }
         JLog.t(tag,"v2ray import failed")
@@ -614,7 +614,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         JLog.t(tag,"v2rayGetConfig")
         val configs = Configs(configCmd?.message?:"",configCmd?.value == 1,configCmd?.data!!)
         //解析cmd然后返回给请求方
-        return BaseResponse(data = configs)
+        return BaseResponse(code = configCmd.value, data = configs)
     }
     private fun alistState():BaseResponse{
         //1.获取alist local socket连接对象
