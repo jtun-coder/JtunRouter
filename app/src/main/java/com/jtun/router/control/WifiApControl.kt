@@ -58,6 +58,8 @@ class WifiApControl private constructor() {
     private var localOnlyIfaces = emptyList<String>()
     private var erroredIfaces = emptyList<String>()
     private var ifaceLookup: Map<String, NetworkInterface> = emptyMap()
+    var activeCallback: (() -> Unit)? = null
+
     private val receiver = broadcastReceiver { _, intent ->
         activeIfaces = intent.tetheredIfaces ?: return@broadcastReceiver
         localOnlyIfaces = intent.localOnlyTetheredIfaces ?: return@broadcastReceiver
@@ -70,6 +72,9 @@ class WifiApControl private constructor() {
             emptyMap()
         }
         KLog.i("activeIfaces $activeIfaces")
+        if(activeIfaces.isNotEmpty()){
+            activeCallback?.invoke()
+        }
         KLog.i("ifaceLookup $ifaceLookup")
     }
     companion object {
@@ -370,7 +375,7 @@ class WifiApControl private constructor() {
             KLog.i("soft ap : $configuration")
             return configuration
     }
-    fun restartTethering(call:(() -> Unit)?){
+    fun restartTethering(){
         GlobalScope.launch(Dispatchers.Main) {
             TetheringManager.stopTethering(TetheringManager.TETHERING_WIFI,errorCallback = {
                 JLog.r("restartTether","restartTethering stop exception : $it")
@@ -383,12 +388,10 @@ class WifiApControl private constructor() {
                     TetheringManager.startTethering(TetheringManager.TETHERING_WIFI,true,object : TetheringManager.StartTetheringCallback{
                         override fun onTetheringStarted() {
                             JLog.r("restartTether","restartTethering startTethering success")
-                            call?.invoke()
                         }
 
                         override fun onTetheringFailed(error: Int?) {
                             JLog.r("restartTether","restartTethering onTetheringFailed error : $error")
-                            call?.invoke()
                         }
 
                         override fun onException(e: Exception) {

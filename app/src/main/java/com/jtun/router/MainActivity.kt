@@ -88,7 +88,13 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         httpWeb?.startServer()
         httpServer = HttpServer()
         httpServer?.startServer()
-        httpServer?.restartCallback = {
+        //启动一个LocalServer用于管理第三方应用
+        LocalServer.instance.localServerListener = this
+        LocalServer.instance.init(Const.ROUTING_TAG)
+
+        WifiApControl.getInstance().trafficStats()
+        WifiApControl.getInstance().initNetSpeed()
+        WifiApControl.getInstance().activeCallback = {
             lifecycleScope.launch {
                 val config = WifiApControl.getInstance().getSoftApConfig()
                 val ip = NetworkUtils.getLocalIpv4Address()
@@ -97,12 +103,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
                 }
             }
         }
-        //启动一个LocalServer用于管理第三方应用
-        LocalServer.instance.localServerListener = this
-        LocalServer.instance.init(Const.ROUTING_TAG)
-
-        WifiApControl.getInstance().trafficStats()
-        WifiApControl.getInstance().initNetSpeed()
         FileHelper.init(this@MainActivity)
         startAp()
         SystemCtrlUtil.systemSettings(this)

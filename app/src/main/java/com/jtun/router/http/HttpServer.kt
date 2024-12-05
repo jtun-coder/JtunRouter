@@ -48,7 +48,6 @@ import org.json.JSONObject
  */
 class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
     private val tag = HttpServer::class.java.simpleName
-    var restartCallback: (() -> Unit)? = null
     companion object{
         private const val KEY_ADMIN_PASS = "admin_pass_key"
         private const val DATA_PLAN = "data_plan"
@@ -124,7 +123,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
                         HttpInterface.SET_AP_CONFIG ->{
                             val data = jsonObject.getJSONObject("data")
                             resp = setApConfig(data.toString())
-                            WifiApControl.getInstance().restartTethering(restartCallback)
+                            WifiApControl.getInstance().restartTethering()
                         }
                         HttpInterface.SET_ADMIN_PASS ->{
                             val newPass = jsonObject.getString("newPass")
