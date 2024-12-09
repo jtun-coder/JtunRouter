@@ -121,7 +121,7 @@ class WifiApControl private constructor() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 mTelephonyManager?.let {
                     if(it.imei.isNotEmpty()){
-                       return it.imei
+                        return it.imei
                     }
                 }
             }
@@ -136,7 +136,8 @@ class WifiApControl private constructor() {
      */
     private fun getTotalRxBytes(): Long {
         try {
-            return if (TrafficStats.getUidRxBytes(context!!.applicationInfo.uid) == -1L) 0L else TrafficStats.getMobileRxBytes() / 1024
+            val mobileRx = TrafficStats.getMobileRxBytes()
+            return mobileRx
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -148,7 +149,8 @@ class WifiApControl private constructor() {
      */
     private fun getTotalTxBytes(): Long {
         try {
-            return if (TrafficStats.getUidTxBytes(context!!.applicationInfo.uid) == -1L) 0L else TrafficStats.getMobileTxBytes() / 1024
+            val mobileTx = TrafficStats.getMobileTxBytes()
+            return mobileTx
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -156,13 +158,13 @@ class WifiApControl private constructor() {
     }
 
     fun initNetSpeed(){
-        this.lastTotalRxBytes = getTotalRxBytes()
-        this.lastTotalTxBytes = getTotalTxBytes()
+        this.lastTotalRxBytes = getAllRx(0,System.currentTimeMillis())
+        this.lastTotalTxBytes = getAllTx(0,System.currentTimeMillis())
         this.lastTimeStamp = SystemClock.uptimeMillis()
     }
     fun getNetSpeed(): Array<Long> {
-        val totalRxBytes = getTotalRxBytes() //下载流量
-        val totalTxBytes = getTotalTxBytes() //上传流量
+        val totalRxBytes = getAllRx(0,System.currentTimeMillis()) //下载流量
+        val totalTxBytes = getAllTx(0,System.currentTimeMillis()) //上传流量
         if (this.lastTotalRxBytes == 0L) {
             this.lastTotalRxBytes = totalRxBytes
         }
@@ -173,8 +175,10 @@ class WifiApControl private constructor() {
         var tx = 0L
         val uptimeMillis = SystemClock.uptimeMillis()
         if(uptimeMillis > lastTimeStamp){
-            rx = ((totalRxBytes - lastTotalRxBytes) * 1000) / (uptimeMillis - lastTimeStamp)
-            tx = ((totalTxBytes - this.lastTotalTxBytes) * 1000) / (uptimeMillis - lastTimeStamp)
+            if(totalRxBytes > lastTotalRxBytes)
+                rx = ((totalRxBytes - lastTotalRxBytes) * 1000) / (uptimeMillis - lastTimeStamp)
+            if(totalTxBytes > lastTotalTxBytes)
+                tx = ((totalTxBytes - lastTotalTxBytes) * 1000) / (uptimeMillis - lastTimeStamp)
             this.lastTimeStamp = uptimeMillis
             this.lastTotalRxBytes = totalRxBytes
             this.lastTotalTxBytes = totalTxBytes
@@ -186,7 +190,7 @@ class WifiApControl private constructor() {
      * 获取已连接过的客户端列表
      */
     suspend fun getConnectedClients(): List<ClientConnected> {
-       return softApControl.getConnectedClients()
+        return softApControl.getConnectedClients()
     }
     fun release(){
         context?.unregisterReceiver(receiver)
@@ -227,6 +231,27 @@ class WifiApControl private constructor() {
         }catch (e : Exception){
             e.printStackTrace()
         }
+    }
+
+    private fun getAllRx(startTime:Long,endTime:Long):Long{
+        try {
+            val networkStatsManager = context!!.getSystemService(AppCompatActivity.NETWORK_STATS_SERVICE) as NetworkStatsManager
+            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(0, null, startTime, endTime)
+            return querySummaryForDevice.rxBytes
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return 0
+    }
+    private fun getAllTx(startTime:Long,endTime:Long):Long{
+        try {
+            val networkStatsManager = context!!.getSystemService(AppCompatActivity.NETWORK_STATS_SERVICE) as NetworkStatsManager
+            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(0, null, startTime, endTime)
+            return querySummaryForDevice.txBytes
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return 0
     }
     fun getAllUsed():Long{
         try {
@@ -346,34 +371,34 @@ class WifiApControl private constructor() {
         }
     }
     suspend fun getSoftApConfig(): SoftApConfigurationCompat? {
-            val configuration = try {
+        val configuration = try {
+            if (Build.VERSION.SDK_INT < 30) @Suppress("DEPRECATION") {
+                WifiApManager.configurationLegacy?.toCompat() ?: SoftApConfigurationCompat()
+            } else WifiApManager.configuration.toCompat()
+        } catch (e: InvocationTargetException) {
+            if (e.targetException !is SecurityException) Timber.w(e)
+            try {
                 if (Build.VERSION.SDK_INT < 30) @Suppress("DEPRECATION") {
-                    WifiApManager.configurationLegacy?.toCompat() ?: SoftApConfigurationCompat()
-                } else WifiApManager.configuration.toCompat()
-            } catch (e: InvocationTargetException) {
-                if (e.targetException !is SecurityException) Timber.w(e)
-                try {
-                    if (Build.VERSION.SDK_INT < 30) @Suppress("DEPRECATION") {
-                        RootManager.use { it.execute(WifiApCommands.GetConfigurationLegacy()) }?.toCompat()
-                            ?: SoftApConfigurationCompat()
-                    } else RootManager.use { it.execute(WifiApCommands.GetConfiguration()) }.toCompat()
-                } catch (_: CancellationException) {
-                    return null
-                } catch (eRoot: Exception) {
-                    eRoot.addSuppressed(e)
-                    if (Build.VERSION.SDK_INT >= 29 || eRoot.getRootCause() !is SecurityException) {
-                        Timber.w(eRoot)
-                    }
-                    SmartSnackbar.make(eRoot).show()
-                    return null
+                    RootManager.use { it.execute(WifiApCommands.GetConfigurationLegacy()) }?.toCompat()
+                        ?: SoftApConfigurationCompat()
+                } else RootManager.use { it.execute(WifiApCommands.GetConfiguration()) }.toCompat()
+            } catch (_: CancellationException) {
+                return null
+            } catch (eRoot: Exception) {
+                eRoot.addSuppressed(e)
+                if (Build.VERSION.SDK_INT >= 29 || eRoot.getRootCause() !is SecurityException) {
+                    Timber.w(eRoot)
                 }
-            } catch (e: IllegalArgumentException) {
-                Timber.w(e)
-                SmartSnackbar.make(e).show()
+                SmartSnackbar.make(eRoot).show()
                 return null
             }
-            KLog.i("soft ap : $configuration")
-            return configuration
+        } catch (e: IllegalArgumentException) {
+            Timber.w(e)
+            SmartSnackbar.make(e).show()
+            return null
+        }
+        KLog.i("soft ap : $configuration")
+        return configuration
     }
     fun restartTethering(){
         GlobalScope.launch(Dispatchers.Main) {

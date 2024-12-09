@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="32sp"
+                    android:textSize="24sp"
                     android:id="@+id/text_uploads"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"/>
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="32sp"
+                    android:textSize="24sp"
                     android:id="@+id/text_download"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"/>
