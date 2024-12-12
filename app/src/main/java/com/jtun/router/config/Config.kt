@@ -14,8 +14,8 @@ object Config {
     const val WIREGUARD = "wireguard://"
 
     const val AP_TRIFFIC_CAL_START = "ap_triffic_cal_start";
-    const val V2RAY_PACKAGE_NAME = "com.v2ray.ang"
-    const val ALIST_PACKAGE_NAME = "com.leohao.android.alistlite"
-    const val OPENVPN_PACKAGE_NAME = "de.blinkt.openvpn"
+    const val V2RAY_PACKAGE_NAME = "com.jtun.v2ray"
+    const val ALIST_PACKAGE_NAME = "com.jtun.android.alistlite"
+    const val OPENVPN_PACKAGE_NAME = "com.jtun.openvpn"
     const val FRP_PACKAGE_NAME = "com.jtun.frpc_android"
 }

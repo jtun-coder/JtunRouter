@@ -682,7 +682,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"OpenVpn import success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value, message = configCmd.message)
         }
         JLog.t(tag,"OpenVpn import failed")
         return BaseResponse(500, message = "Failed")
@@ -695,7 +695,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"OpenVpn start success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"OpenVpn start failed")
         return BaseResponse(500, message = "Failed")
@@ -707,7 +707,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"OpenVpn stop success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"OpenVpn stop failed")
         return BaseResponse(500, message = "Failed")
@@ -731,7 +731,7 @@ class HttpServer : NanoHTTPD(Config.HTTP_PORT) {
         val configCmd = GsonUtil.getGsonObject<BaseLocalCmd<Any?>>(cmdStr)
         configCmd?.let {
             JLog.t(tag,"OpenVpn remove success $cmdStr")
-            return BaseResponse(message = configCmd.message)
+            return BaseResponse(code = configCmd.value,message = configCmd.message)
         }
         JLog.t(tag,"OpenVpn remove failed")
         return BaseResponse(500, message = "Failed")

@@ -246,7 +246,7 @@ class WifiApControl private constructor() {
     private fun getAllTx(startTime:Long,endTime:Long):Long{
         try {
             val networkStatsManager = context!!.getSystemService(AppCompatActivity.NETWORK_STATS_SERVICE) as NetworkStatsManager
-            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(0, null, startTime, endTime)
+            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE, null, startTime, endTime)
             return querySummaryForDevice.txBytes
         }catch (e:Exception){
             e.printStackTrace()
@@ -256,7 +256,7 @@ class WifiApControl private constructor() {
     fun getAllUsed():Long{
         try {
             val networkStatsManager = context!!.getSystemService(AppCompatActivity.NETWORK_STATS_SERVICE) as NetworkStatsManager
-            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(0, null, 0, System.currentTimeMillis())
+            val querySummaryForDevice = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE, null, 0, System.currentTimeMillis())
             val rxBytes3 = querySummaryForDevice.rxBytes + querySummaryForDevice.txBytes
             return rxBytes3
         }catch (e:Exception){
