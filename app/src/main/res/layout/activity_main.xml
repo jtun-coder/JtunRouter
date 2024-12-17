@@ -282,17 +282,19 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_grey"
-                            android:layout_weight="1"
+                            android:singleLine="true"
                             android:textSize="14sp"
                             android:text="@string/device_id"/>
                         <TextView
                             android:id="@+id/text_device_id"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:textColor="@color/black"
+                            android:gravity="right"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
