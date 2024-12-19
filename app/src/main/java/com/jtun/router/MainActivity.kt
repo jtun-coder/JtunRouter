@@ -160,7 +160,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, L
         }
     }
 
-
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         Log.i("getPermission", "onPermissionsGranted")
         //如果用户点击永远禁止，这个时候就需要跳到系统设置页面去手动打开了
